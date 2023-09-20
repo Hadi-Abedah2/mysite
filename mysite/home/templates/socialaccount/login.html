@@ -1,0 +1,15 @@
+
+
+<!-- this for customizing google associate page after clicking on login with google-->
+{% extends 'base_menu.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Confirm Login</h2>
+    <p>Do you want to sign in to this site using your google account?</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Confirm</button>
+    </form>
+</div>
+{% endblock %}
