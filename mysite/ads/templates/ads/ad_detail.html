@@ -1,0 +1,120 @@
+{% extends "base_menu.html" %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+{% block head %}
+<style>
+    /* Image Frame */
+    .img-container {
+        border: 4px solid #e9ecef; /* Adjusted to Bootstrap's light gray */
+        padding: 10px;
+        margin: 10px 0;
+        width: 300px;
+    }
+    .img-container img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* Comment styling */
+    .comment-container {
+        background-color: #f7f7f7;
+        padding: 1rem; /* Consistent with Bootstrap's padding notation */
+        margin: 1rem 0;
+        border: 1px solid #e9ecef; /* Bootstrap's light gray */
+        border-radius: 4px;
+    }
+    .comment-actions {
+        font-size: 0.8rem;
+        margin-top: .5rem; /* Consistent with Bootstrap's margin notation */
+    }
+    .comments-section {
+    max-height: 400px; /* adjust this value as needed */
+    overflow-y: auto;  /* vertical scrollbar */
+    
+    
+    }
+    .tag {
+    display: inline-block;
+    background-color: #e9e9e9; /* Light grey background */
+    color: #333; /* Darker grey text */
+    padding: 6px 12px; /* Slightly larger padding */
+    margin-right: 5px;
+    border-radius: 15px; /* Rounded corners */
+    text-decoration: none; /* Remove underline if it's a link */
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effects */
+
+    }
+
+    .tag:hover {
+    background-color: #d0d0d0; /* Slightly darker grey on hover */
+    transform: scale(1.05); /* Slightly enlarge the tag on hover */
+    cursor: pointer; /* Change cursor to indicate clickability */
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <div class="float-right text-muted">
+        (last update: {{ ad.updated_at|naturaltime }})
+        {% if ad.owner == user %}
+            <a href="{% url 'ads:ad_update' ad.id %}" class="text-primary ml-2"><i class="fas fa-pencil-alt"></i></a>
+            <a href="{% url 'ads:ad_delete' ad.id %}" class="text-danger ml-2"><i class="fas fa-trash-alt"></i></a>
+        {% endif %}
+    </div>
+    <h1 class="mb-4">{{ ad.title }}</h1>
+    <p>
+        {{ ad.text }}
+    </p>
+    <p>
+        Price: <strong>${{ ad.price|floatformat:2 }}</strong>
+    </p>
+    {% if ad.tags.all %}
+    <p>Tags: 
+        {% for tag in ad.tags.all %}
+          <a href="{% url 'ads:ad_list' tag_name=tag.name %}"><strong><span class="tag">{{ tag.name }}</span></strong></a>
+        {% endfor %}
+    </p>
+    {% endif %}
+
+
+    {% if ad.content_type %}
+    <div class="img-container float-right">
+        <img src="{% url 'ads:ad_picture' ad.id %}" alt="{{ ad.title }}" onclick="document.getElementById('overlay').style.display = 'block';">
+    </div>
+    <div style="clear:right;"></div>
+    {% endif %}
+    <h3 class="mt-4">Comments:</h3>
+    <div class="comments-section">
+        {% for comment in comments %}
+        <div class="comment-container">
+            <p>{{ comment.text }}</p>
+            <div class="comment-actions">
+                <span class="text-muted">{{ comment.updated_at }}</span>
+                {% if user == comment.owner %}
+                    <a href="{% url 'ads:ad_comment_delete' comment.id %}" class="text-danger ml-2"><i class="fas fa-trash-alt"></i> Delete</a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if user.is_authenticated %}
+    <div class="mt-4">
+        <h4>Add a Comment:</h4>
+        <form method="post" action="{% url 'ads:ad_comment_create' ad.id %}">
+            {% csrf_token %}
+            {{ comment_form|crispy }}
+            <div class="mt-2">
+                <input type="submit" value="Add comment!" class="btn btn-primary">
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'ads:ad_list' %}';">All Ads</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
+    <p class="mt-4">
+        <a href="{% url 'ads:ad_list' %}" class="btn btn-link">All ads</a>
+    </p>
+</div>
+{% endblock %}

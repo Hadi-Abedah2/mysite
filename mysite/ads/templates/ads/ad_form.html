@@ -1,0 +1,37 @@
+{% extends "base_menu.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h2 class="mb-4">Create a new Ad...</h2>
+            <form action="" method="post" id="upload_form" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="mt-3">
+                    <input type="submit" value="Submit" class="btn btn-primary">
+                    <button type="button" class="btn btn-danger" onclick="cancelForm();">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function cancelForm() {
+        window.location.href = '{% url 'ads:ad_list' %}';
+    }
+
+    document.getElementById("upload_form").addEventListener("submit", function(event) {
+        console.log('Checking file size');
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+            var file = document.getElementById('id_{{ form.upload_field_name }}').files[0];
+            if (file && file.size > {{ form.max_upload_limit }}) {
+                alert("File " + file.name + " of type " + file.type + " must be < {{ form.max_upload_limit_text }}");
+                event.preventDefault();
+                return false;
+            }
+        }
+    });
+</script>
+{% endblock %}

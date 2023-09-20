@@ -1,0 +1,170 @@
+{% extends "base_menu.html" %}
+{% block content %}
+{% csrf_token %}
+{% load humanize %}
+<h1>Ads</h1>
+
+<style>
+    .custom-search .form-control {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+    }
+    .custom-search .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+    }
+    .ads-container {
+    max-height: 420px;
+    overflow-y: auto;
+    width: 100%;
+    scroll-behavior: smooth;
+    }
+
+
+
+    .pagination {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center; /* center the pagination elements horizontally */
+    }
+
+    .pagination .step-links {
+        display: flex;
+        align-items: center;
+        gap: 10px; /* adds space between direct children elements */
+    }
+
+    .pagination a {
+        margin: 0 5px; /* horizontal spacing between links */
+        padding: 3px 8px; /* internal spacing within each link */
+        border: 1px solid #ccc; /* optional, to add a border around each link */
+        text-decoration: none; /* remove underline from links */
+    }
+
+    .pagination .current {
+        margin: 0 15px; /* larger horizontal spacing for the page counter */
+    }
+
+
+
+
+</style>
+
+<div class="float-right mb-2"> <!-- I added a slight margin-bottom for the search bar -->
+    <form method="get" class="form-inline custom-search"> 
+        <div class="input-group">
+            <input type="text" class="form-control" name="search" label="you can search by title or tag" placeholder="Search Ads ...">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<div class="ads-container"
+
+    {% if ad_list %}
+    <ul class="list-group">
+      {% for ad in ad_list %}
+        <li class="list-group-item">
+            <a href="{% url 'ads:ad_detail' ad.id %}">{{ ad.title }}</a>
+            {% if ad.owner == user %}
+            (<a href="{% url 'ads:ad_update' ad.id %}" class="text-primary"><i class="fas fa-edit"></i> Edit</a> |
+            <a href="{% url 'ads:ad_delete' ad.id %}" class="text-danger"><i class="fas fa-trash-alt"></i> Delete</a>)
+            {% endif %}
+        
+            {% if user.is_authenticated %}
+            <!-- Two hrefs with two stacked icons each - one showing and one hidden -->
+            <a href="#" onclick="favPost('{% url 'ads:ad_unfavorite' ad.id %}', {{ ad.id }} );return false;" {% if ad.id not in favorites %} style="display: none;" {% endif %} id="favorite_star_{{ad.id}}">
+            <span class="fa-stack" style="vertical-align: middle;">
+            <i class="fas fa-star fa-stack-1x" style="color: orange;"></i> <!-- FontAwesome 5 icon -->
+            </span>
+            </a>
+            <!-- the second href -->
+            <a href="#" onclick="favPost('{% url 'ads:ad_favorite' ad.id %}', {{ ad.id }} );return false;" {% if ad.id in favorites %} style="display: none;" {% endif %} id="unfavorite_star_{{ad.id}}">
+            <span class="fa-stack" style="vertical-align: middle;">
+            <i class="far fa-star fa-stack-1x"></i> <!-- FontAwesome 5 icon -->
+            </span>
+            </a>
+            {% endif %}
+            ({{ad.created_at|naturaltime}})
+        </li>
+    </ul>
+      {% endfor %}
+ 
+</div>
+
+
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+        <a href="?search={{ request.GET.search|default:'' }}&page=1">&laquo; first</a>
+        <a href="?search={{ request.GET.search|default:'' }}&page={{ page_obj.previous_page_number }}">{{ page_obj.number|add:'-1' }}</a>
+        {% endif %}
+
+        <span class="current">
+             {{ page_obj.number }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?search={{ request.GET.search|default:'' }}&page={{ page_obj.next_page_number }}">{{ page_obj.number|add:'1' }}</a>
+            <a href="?search={{ request.GET.search|default:'' }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+  </div>
+
+
+
+{% else %}
+  <p>There are no ads in the database.</p>
+{% endif %}
+</p>
+<p>
+<a href="{% url 'ads:ad_create' %}" class="btn btn-success"><i class="fas fa-plus"></i> Add an Ad</a>
+{% if user.is_authenticated %}
+<a href="{% url 'logout' %}?next={% url 'ads:ad_list' %}" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Logout</a>
+{% else %}
+<a href="{% url 'login' %}?next={% url 'ads:ad_list' %}" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Login</a>
+{% endif %}
+</p>
+<script>
+function toggleInlineDisplay(star_id) {
+    var elem = document.getElementById(star_id);
+    if(window.getComputedStyle(elem).display == "inline") {
+        elem.style.display = 'none';
+        elem.dataset.previousDisplay = 'inline';
+    } else if(window.getComputedStyle(elem).display == "block") {
+        elem.style.display = 'none';
+        elem.dataset.previousDisplay = 'block';
+    } else {
+        console.log('prev', elem.dataset.previousDisplay);
+        if ( typeof elem.dataset.previousDisplay == 'string' ) {
+            elem.style.display = elem.dataset.previousDisplay
+        } else {
+            elem.style.display = 'inline';
+        }
+    }
+}
+
+function favPost(url, ad_id) {
+    console.log('POSTing to', url);
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    fetch(url, { method: 'POST',headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken  // Include the CSRF token in the request header
+        }, body: '{}' } )
+    .then((response) => {
+        console.log(url, 'finished');
+        toggleInlineDisplay("unfavorite_star_"+ad_id);
+        toggleInlineDisplay("favorite_star_"+ad_id);
+    }).catch((error) => {
+        alert('Url failed with '+error+' '+url);
+    });
+}
+</script>
+{% endblock %}

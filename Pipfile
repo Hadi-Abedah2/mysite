@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+crispy-bootstrap4 = "*"
+django-filter = "==2.2.0"
+django-extensions = "*"
+django-crispy-forms = "*"
+django-taggit = "*"
+django-widget-tweaks = "*"
+django-allauth = {version = "*", extras = ["google"]}
+python-decouple = "*"
+psycopg2 = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
