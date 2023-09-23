@@ -1,8 +1,26 @@
 {% extends "base_bootstrap.html" %}
 {% load app_tags %}
-
 {% block navbar %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark"> 
+<style> 
+  /* Mobile view */
+  @media (max-width: 768px) {
+      .custom-navbar .navbar-nav {
+          flex-direction: column; /* Stack the nav items vertically */
+      }
+
+      .custom-navbar .nav-item {
+          text-align: center; /* Center the nav items */
+          margin: 5px 0; /* Add some vertical spacing between items */
+      }
+
+      .custom-navbar .navbar-brand {
+          display: block; /* Make the brand take the full width */
+          text-align: center; /* Center the brand text */
+      }
+  }
+</style>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark custom-navbar">
+
   <a class="navbar-brand" href="/">{{ settings.APP_NAME }}</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
