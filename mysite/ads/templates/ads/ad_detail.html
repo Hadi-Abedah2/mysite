@@ -2,6 +2,7 @@
 {% load crispy_forms_tags %}
 {% load humanize %}
 {% block head %}
+{% load static %}
 <style>
     /* Image Frame */
     .img-container {
@@ -50,6 +51,16 @@
     transform: scale(1.05); /* Slightly enlarge the tag on hover */
     cursor: pointer; /* Change cursor to indicate clickability */
     }
+    .ad-content {
+    display: flex;
+    align-items: start; /* Align items to the top */
+    gap: 1rem; /* Space between the image and the content */
+    }
+
+/* Make the image appear on the right */
+.ad-image {
+    order: 2;
+    }
 
 </style>
 {% endblock %}
@@ -78,27 +89,34 @@
     </p>
     {% endif %}
 
-
+    <div class="ad-image">
     {% if ad.content_type %}
     <div class="img-container float-right">
         <img src="{% url 'ads:ad_picture' ad.id %}" alt="{{ ad.title }}" onclick="document.getElementById('overlay').style.display = 'block';">
     </div>
     <div style="clear:right;"></div>
     {% endif %}
+    </div>
+
     <h3 class="mt-4">Comments:</h3>
     <div class="comments-section">
         {% for comment in comments %}
-        <div class="comment-container">
-            <p>{{ comment.text }}</p>
+        <div class="comment-container mb-3"> <!-- Added margin-bottom for spacing between comments -->
+            <div class="d-flex flex-row align-items-center mb-2"> <!-- Added margin-bottom for spacing between the header and the comment text -->
+                <img src="{% static 'person.png' %}" alt="Unknown person">
+                <p class="big mb-0">({{comment.owner}})</p>
+            </div>
+            <p class="mb-2">{{ comment.text }}</p> <!-- Added margin-bottom for spacing between the comment text and the actions -->
             <div class="comment-actions">
                 <span class="text-muted">{{ comment.updated_at }}</span>
                 {% if user == comment.owner %}
-                    <a href="{% url 'ads:ad_comment_delete' comment.id %}" class="text-danger ml-2"><i class="fas fa-trash-alt"></i> Delete</a>
+                    <a href="{% url 'ads:ad_comment_delete' comment.id %}" class="text-danger ms-2"><i class="fas fa-trash-alt"></i> Delete</a> <!-- Added margin-start for spacing between the date and the delete link -->
                 {% endif %}
             </div>
         </div>
         {% endfor %}
     </div>
+    
     {% if user.is_authenticated %}
     <div class="mt-4">
         <h4>Add a Comment:</h4>
