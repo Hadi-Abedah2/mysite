@@ -103,7 +103,7 @@
         {% for comment in comments %}
         <div class="comment-container mb-3"> <!-- Added margin-bottom for spacing between comments -->
             <div class="d-flex flex-row align-items-center mb-2"> <!-- Added margin-bottom for spacing between the header and the comment text -->
-                <img src="{% static 'person.png' %}" alt="Unknown person">
+                <img src="{% static 'person.png' %}" alt="person image">
                 <p class="big mb-0">({{comment.owner}})</p>
             </div>
             <p class="mb-2">{{ comment.text }}</p> <!-- Added margin-bottom for spacing between the comment text and the actions -->
