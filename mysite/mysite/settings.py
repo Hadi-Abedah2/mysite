@@ -84,21 +84,33 @@ TEMPLATES = [
 WSGI_APPLICATION = "mysite.wsgi.application"
 
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+#from decouple import config
+#db_password = config('db_password')
+#DATABASES = {                                                                                   
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',          #DB config for pythonanywhere
+#        'NAME': 'mysite',
+#        'USER': 'postgres',
+#        'PASSWORD': db_password,
+#        'HOST': 'localhost',
+#        'PORT': '5432',
+#    }
+#}
 from decouple import config
 db_password = config('db_password')
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mysite',
-        'USER': 'postgres',
+        'ENGINE': 'django.db.backends.mysql',          #DB config for pythonanywhere 
+        'NAME': 'hadiabedah2$default',
+        'USER': 'hadiabedah2',
         'PASSWORD': db_password,
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'HOST': 'hadiabedah2.mysql.pythonanywhere-services.com',  
+        'PORT': '3306',   
+        'OPTIONS': {
+            'init_command': 'SET default_storage_engine=INNODB',
+        }
     }
 }
-
 
 
 # Password validation
@@ -125,11 +137,13 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+import os
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),] 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
