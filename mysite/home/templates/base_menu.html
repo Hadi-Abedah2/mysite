@@ -2,7 +2,7 @@
 {% load app_tags %}
 {% block navbar %}
 {% load gravatar %}
-<style> 
+<style>
   /* Mobile view */
   @media (max-width: 768px) {
       .custom-navbar .navbar-nav {
@@ -27,32 +27,33 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav"> <!-- New collapse div for Bootstrap 4 -->
-    <ul class="navbar-nav mr-auto"> 
-      <li class="nav-item {% if request.path == "/" %}active{% endif %}"> 
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item {% if request.path == "/" %}active{% endif %}">
         <a class="nav-link" href="/">Home</a>
       </li>
       {% url 'ads' as ads %}
-      <li class="nav-item {% if request.get_full_path == ads %}active{% endif %}"> 
+      <li class="nav-item {% if request.get_full_path == ads %}active{% endif %}">
         <a class="nav-link" href="{% url 'ads:ad_list' %}">Ads</a>
       </li>
     </ul>
-    <ul class="navbar-nav ml-auto"> 
+    <ul class="navbar-nav ml-auto">
         {% if user.is_authenticated %}
-        <li class="nav-item dropdown"> 
+        <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img src="{% gravatar_url user.email 40 %}&d=mm" alt="{{ user.username }}"  class="rounded-circle">
+              <img src="{% gravatar_url user.email 40 %}&d=404" alt="{{ user.username }}" class="rounded-circle" onerror="this.onerror=null; this.src='https://www.gravatar.com/avatar/?d=mm&size=40'">
+
             </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"> 
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="{% url 'ads:ad_create' %}">Create Ad</a>
               <a class="dropdown-item" href="{% url 'ads:ad_list' %}?my_ads=true">My Ads</a>
               <a class="dropdown-item" href="{% url 'account_logout' %}?next={% url 'ads:ad_list' %}">Logout</a>
             </div>
         </li>
         {% else %}
-        <li class="nav-item"> 
+        <li class="nav-item">
         <a class="nav-link" href="{% url 'account_login' %}?next={% url 'ads:ad_list' %}">Login</a>
         </li>
-        <li class="nav-item"> 
+        <li class="nav-item">
         <a class="nav-link" href="{% url 'account_signup' %}?next={% url 'ads:ad_list' %}">Signup</a>
         </li>
         {% endif %}
@@ -60,6 +61,6 @@
   </div>
 </nav>
 {% endblock %}
-{% block footer %} 
+{% block footer %}
 {% include 'partials/_footer.html' %}
 {% endblock %}

@@ -18,15 +18,15 @@ from django.urls import path, include
 import  django.contrib.auth.urls
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("ads/", include("ads.urls")), 
+    path("ads/", include("ads.urls")),
     #path("accounts/", include("django.contrib.auth.urls")), this is very basic auth
     path("", include("home.urls")),
     path('accounts/', include('allauth.urls')),
-   
+
 ]
 
 
-# adding on urlpatterns to serve static file as favicon to my webapp 
+# adding on urlpatterns to serve static file as favicon to my webapp
 from django.views.static import serve
 import os
 from django.conf import settings
@@ -34,12 +34,12 @@ from django.conf import settings
 urlpatterns += [
     path('favicon.ico',   #When someone accesses '/favicon.ico' on my website, this URL pattern will be matched(which browsers often do automatically to retrieve the site's favicon ).
         serve,            # Use Django's static file serving view for this purpose
-        
+
         # A dictionary of arguments passed to the `serve` view.
         {
             # This tells the `serve` view which file we want to serve.
             'path': 'favicon.ico',
-            'document_root': os.path.join(settings.BASE_DIR, 'home/static'),
+            'document_root': os.path.join(settings.BASE_DIR, 'mysite/static'),
         }
     ),
 ]
