@@ -19,5 +19,5 @@ urlpatterns = [
         views.fav_add, name='ad_favorite'),
     path('ad/<int:pk>/unfavorite',
         views.fav_remove, name='ad_unfavorite'),
-    #path('<str:tag_name>', views.tag_view, name='tag_view') I gave up on this idea, I sticl to DRY and will integrate the tag_view to the AdListView 
+    #path('<str:tag_name>', views.tag_view, name='tag_view') I gave up on this idea, I stick to DRY and will integrate the tag_view to the AdListView 
 ]

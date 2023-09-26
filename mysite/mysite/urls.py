@@ -19,9 +19,8 @@ import  django.contrib.auth.urls
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("ads/", include("ads.urls")), 
-    path("accounts/", include("django.contrib.auth.urls")),
+    #path("accounts/", include("django.contrib.auth.urls")), this is very basic auth
     path("", include("home.urls")),
-    
     path('accounts/', include('allauth.urls')),
    
 ]

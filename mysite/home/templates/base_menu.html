@@ -1,6 +1,7 @@
 {% extends "base_bootstrap.html" %}
 {% load app_tags %}
 {% block navbar %}
+{% load gravatar %}
 <style> 
   /* Mobile view */
   @media (max-width: 768px) {
@@ -37,23 +38,22 @@
     </ul>
     <ul class="navbar-nav ml-auto"> 
         {% if user.is_authenticated %}
-        <li class="nav-item"> 
-        <a class="nav-link" href="{% url 'ads:ad_create' %}">Create Ad</a>
-        </li>
         <li class="nav-item dropdown"> 
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img style="width: 25px;" src="{{ user|gravatar:60 }}"/>
+              <img src="{% gravatar_url user.email 40 %}&d=mm" alt="{{ user.username }}"  class="rounded-circle">
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown"> 
-                <a class="dropdown-item" href="{% url 'home:logout' %}?next={% url 'ads:ad_list' %}">Logout</a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown"> 
+              <a class="dropdown-item" href="{% url 'ads:ad_create' %}">Create Ad</a>
+              <a class="dropdown-item" href="{% url 'ads:ad_list' %}?my_ads=true">My Ads</a>
+              <a class="dropdown-item" href="{% url 'account_logout' %}?next={% url 'ads:ad_list' %}">Logout</a>
             </div>
         </li>
         {% else %}
         <li class="nav-item"> 
-        <a class="nav-link" href="{% url 'login' %}?next={% url 'ads:ad_list' %}">Login</a>
+        <a class="nav-link" href="{% url 'account_login' %}?next={% url 'ads:ad_list' %}">Login</a>
         </li>
         <li class="nav-item"> 
-        <a class="nav-link" href="{% url 'home:signup' %}?next={% url 'ads:ad_list' %}">Signup</a>
+        <a class="nav-link" href="{% url 'account_signup' %}?next={% url 'ads:ad_list' %}">Signup</a>
         </li>
         {% endif %}
     </ul>
