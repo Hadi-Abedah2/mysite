@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-%g_7okh1qlkg@64(kvcqsutjixo@(!=#u^jj7@mrm6i24p*8x-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['hadiabedah2.pythonanywhere.com']
+ALLOWED_HOSTS = ['hadiabedah2.pythonanywhere.com', '127.0.0.1']
 
 
 # Application definition
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'django_gravatar',
 ]
 
 MIDDLEWARE = [
@@ -84,33 +85,33 @@ TEMPLATES = [
 WSGI_APPLICATION = "mysite.wsgi.application"
 
 
-#from decouple import config
-#db_password = config('db_password')
-#DATABASES = {                                                                                   
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',          #DB config for pythonanywhere
-#        'NAME': 'mysite',
-#        'USER': 'postgres',
-#        'PASSWORD': db_password,
-#        'HOST': 'localhost',
-#        'PORT': '5432',
-#    }
-#}
 from decouple import config
 db_password = config('db_password')
-DATABASES = {
+DATABASES = {                                                                                   
     'default': {
-        'ENGINE': 'django.db.backends.mysql',          #DB config for pythonanywhere 
-        'NAME': 'hadiabedah2$default',
-        'USER': 'hadiabedah2',
+        'ENGINE': 'django.db.backends.postgresql',          #DB config for my local host
+        'NAME': 'mysite',
+        'USER': 'postgres',
         'PASSWORD': db_password,
-        'HOST': 'hadiabedah2.mysql.pythonanywhere-services.com',  
-        'PORT': '3306',   
-        'OPTIONS': {
-            'init_command': 'SET default_storage_engine=INNODB',
-        }
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
+#from decouple import config
+#db_password = config('db_password')
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',          #DB config for pythonanywhere 
+#        'NAME': 'hadiabedah2$default',
+#        'USER': 'hadiabedah2',
+#        'PASSWORD': db_password,
+#        'HOST': 'hadiabedah2.mysql.pythonanywhere-services.com',  
+#        'PORT': '3306',   
+#        'OPTIONS': {
+#            'init_command': 'SET default_storage_engine=INNODB',
+#        }
+#    }
+#}
 
 
 # Password validation
@@ -143,7 +144,7 @@ import os
 
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),] 
+STATICFILES_DIRS = [os.path.join(BASE_DIR,"mysite", "static"),] 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -160,6 +161,12 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = True
+
+
 from decouple import config
 
 SECRET_KEY = config('SECRET_KEY') #using python-decouple and environment variables to make my project secure
@@ -171,3 +178,7 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+
+GRAVATAR_DEFAULT_IMAGE = 'mm'
+GRAVATAR_SECURE_REQUESTS = True

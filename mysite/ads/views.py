@@ -25,11 +25,15 @@ class AdListView(generic.ListView):
         query_set =  super().get_queryset()
         search = self.request.GET.get('search')
         tag_name = self.kwargs.get('tag_name', None)
+        my_ads = self.request.GET.get('my_ads', None)
         if search:  
             query_set = Ad.objects.filter(Q(title__icontains=search) | Q(tags__name__icontains=search))
             
         elif tag_name : 
             query_set = Ad.objects.filter(tags__name__iexact=tag_name)
+            
+        elif my_ads:
+            query_set = Ad.objects.filter(owner=self.request.user)
          
         return query_set.order_by('id')
     

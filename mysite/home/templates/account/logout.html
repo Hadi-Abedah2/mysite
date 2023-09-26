@@ -1,0 +1,12 @@
+{% extends 'base_menu.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Logout</h2>
+    <p>Are you sure you want to sign out?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, sign out</button>
+        <a href="{% url 'ads:ad_list' %}" class="btn btn-secondary">No, take me back</a>
+    </form>
+</div>
+{% endblock %}
