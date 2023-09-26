@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'django_extensions' ,
     'django.contrib.humanize',
-    # this for google social login 
+    # this for google social login
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -85,33 +85,33 @@ TEMPLATES = [
 WSGI_APPLICATION = "mysite.wsgi.application"
 
 
-from decouple import config
-db_password = config('db_password')
-DATABASES = {                                                                                   
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',          #DB config for my local host
-        'NAME': 'mysite',
-        'USER': 'postgres',
-        'PASSWORD': db_password,
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
 #from decouple import config
 #db_password = config('db_password')
 #DATABASES = {
 #    'default': {
-#        'ENGINE': 'django.db.backends.mysql',          #DB config for pythonanywhere 
-#        'NAME': 'hadiabedah2$default',
-#        'USER': 'hadiabedah2',
+#        'ENGINE': 'django.db.backends.postgresql',          #DB config for my local host
+#        'NAME': 'mysite',
+#        'USER': 'postgres',
 #        'PASSWORD': db_password,
-#        'HOST': 'hadiabedah2.mysql.pythonanywhere-services.com',  
-#        'PORT': '3306',   
-#        'OPTIONS': {
-#            'init_command': 'SET default_storage_engine=INNODB',
-#        }
+#        'HOST': 'localhost',
+#        'PORT': '5432',
 #    }
 #}
+from decouple import config
+db_password = config('db_password')
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',          #DB config for pythonanywhere
+        'NAME': 'hadiabedah2$default',
+        'USER': 'hadiabedah2',
+        'PASSWORD': db_password,
+        'HOST': 'hadiabedah2.mysql.pythonanywhere-services.com',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': 'SET default_storage_engine=INNODB',
+        }
+    }
+}
 
 
 # Password validation
@@ -144,7 +144,8 @@ import os
 
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR,"mysite", "static"),] 
+#STATICFILES_DIRS = [os.path.join(BASE_DIR,"mysite", "static"),] # for local
+STATICFILES_DIRS = [os.path.join(BASE_DIR,"mysite", "mysite", "static"),]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -152,9 +153,9 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,"mysite", "static"),]
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-TAGGIT_CASE_INSENSITIVE = True 
+TAGGIT_CASE_INSENSITIVE = True
 
-# this for google social login 
+# this for google social login
 
 AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',

@@ -15,7 +15,7 @@
         max-width: 100%;
         height: auto;
     }
-    
+
     /* Comment styling */
     .comment-container {
         background-color: #f7f7f7;
@@ -31,8 +31,8 @@
     .comments-section {
     max-height: 400px; /* adjust this value as needed */
     overflow-y: auto;  /* vertical scrollbar */
-    
-    
+
+
     }
     .tag {
     display: inline-block;
@@ -82,7 +82,7 @@
         Price: <strong>${{ ad.price|floatformat:2 }}</strong>
     </p>
     {% if ad.tags.all %}
-    <p>Tags: 
+    <p>Tags:
         {% for tag in ad.tags.all %}
           <a href="{% url 'ads:ad_list' tag_name=tag.name %}"><strong><span class="tag">{{ tag.name }}</span></strong></a>
         {% endfor %}
@@ -103,7 +103,7 @@
         {% for comment in comments %}
         <div class="comment-container mb-3"> <!-- Added margin-bottom for spacing between comments -->
             <div class="d-flex flex-row align-items-center mb-2"> <!-- Added margin-bottom for spacing between the header and the comment text -->
-                <img src="{% static 'person.png' %}" alt="person image">
+                <img src="{% static 'images/person.png' %}" alt="person image">
                 <p class="big mb-0">({{comment.owner}})</p>
             </div>
             <p class="mb-2">{{ comment.text }}</p> <!-- Added margin-bottom for spacing between the comment text and the actions -->
@@ -116,7 +116,7 @@
         </div>
         {% endfor %}
     </div>
-    
+
     {% if user.is_authenticated %}
     <div class="mt-4">
         <h4>Add a Comment:</h4>
