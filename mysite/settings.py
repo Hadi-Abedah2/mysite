@@ -18,9 +18,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-%g_7okh1qlkg@64(kvcqsutjixo@(!=#u^jj7@mrm6i24p*8x-"
+from decouple import config
+SECRET_KEY = config('SECRET_KEY')   ## making my webapp secure !
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -144,8 +143,7 @@ import os
 
 STATIC_URL = "/static/"
 
-#STATICFILES_DIRS = [os.path.join(BASE_DIR,"mysite", "static"),] # for local
-STATICFILES_DIRS = [os.path.join(BASE_DIR,"mysite", "mysite", "static"),]
+STATICFILES_DIRS = [os.path.join(BASE_DIR,"mysite", "static"),] # for local
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
@@ -171,7 +169,7 @@ ACCOUNT_USERNAME_REQUIRED = True
 
 from decouple import config
 
-SECRET_KEY = config('SECRET_KEY') #using python-decouple and environment variables to make my project secure
+SECRET_KEY = config('SOCIAL_SECRET_KEY') #using python-decouple and environment variables to make my project secure
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
