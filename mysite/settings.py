@@ -26,6 +26,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['hadiabedah2.pythonanywhere.com', '127.0.0.1']
 
+AUTH_USER_MODEL = 'home.CustomUser'
 
 # Application definition
 
@@ -84,33 +85,33 @@ TEMPLATES = [
 WSGI_APPLICATION = "mysite.wsgi.application"
 
 
-#from decouple import config
-#db_password = config('db_password')
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',          #DB config for my local host
-#        'NAME': 'mysite',
-#        'USER': 'postgres',
-#        'PASSWORD': db_password,
-#        'HOST': 'localhost',
-#        'PORT': '5432',
-#    }
-#}
 from decouple import config
 db_password = config('db_password')
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',          #DB config for pythonanywhere
-        'NAME': 'hadiabedah2$default',
-        'USER': 'hadiabedah2',
+        'ENGINE': 'django.db.backends.postgresql',          #DB config for my local host
+        'NAME': 'mysite',
+        'USER': 'postgres',
         'PASSWORD': db_password,
-        'HOST': 'hadiabedah2.mysql.pythonanywhere-services.com',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': 'SET default_storage_engine=INNODB',
-        }
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
+
+#db_password = config('db_password')
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',          DB config for pythonanywhere
+#        'NAME': 'hadiabedah2$default',
+#        'USER': 'hadiabedah2',
+#        'PASSWORD': db_password,
+#        'HOST': 'hadiabedah2.mysql.pythonanywhere-services.com',
+#        'PORT': '3306',
+#        'OPTIONS': {
+#            'init_command': 'SET default_storage_engine=INNODB',
+#        }
+#    }
+#}
 
 
 # Password validation
