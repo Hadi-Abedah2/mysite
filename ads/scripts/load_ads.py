@@ -1,41 +1,43 @@
 import csv
 from ads.models import Ad
-from django.contrib.auth.models import User
-filename = 'ads/scripts/data/ads.csv' 
+from django.contrib.auth import get_user_model
+from django.utils import timezone
+
+import random
+from datetime import timedelta, datetime
+
+filename = "ads/scripts/data/ads_ad.csv"
+
+
+all_users = list(get_user_model().objects.all())
+
+
+def random_user():
+    return random.choice(all_users)
 
 
 def run():
-    Ad.objects.filter(id__range=(7, 108)).delete() # I want to delete previously added records but not the ones I manually adeded
-    with open(filename, 'r') as f:
-        counter = 1
-        user_1= User.objects.get(username='hadi')
-        user_2= User.objects.get(username='fadi')
-        user_3= User.objects.get(username='amjad')
-        
+    Ad.objects.all().delete()
+    with open(filename, "r") as f:
         reader = csv.reader(f)
         next(reader)
         for row in reader:
-            if counter % 3 == 0 and counter % 5 != 0:       # here i am making sure my three users alternate making 100 ads.
-                 user = user_1
-            elif counter % 5 == 0 and counter % 3 != 0:     # I should have used radndom.choice(iterable), I did this in the load_comment.py
-                user = user_2
-            else:
-                user = user_3
+            user = random_user()
+            created_at = datetime.strptime(row[3], "%Y-%m-%d %H:%M:%S")
             try:
                 ad = Ad(
-                    id = row[0],
-                    title = row[1],
-                    price = row[2],
-                    text = row[3], 
-                    owner = user,
-                    #tags = row[4],
-                    created_at = row[5], 
-                    updated_at = row[6]
+                    title=row[0],
+                    price=float(row[1]),
+                    text=row[2],
+                    owner=user,
+                    created_at=created_at,
                 )
-                counter += 1
                 ad.save()
-                tag_to_add = [tag.strip() for tag in row[4].split(',')]
+                tag_to_add = ["drugs", "demo"]
                 ad.tags.add(*tag_to_add)
-                
+                #updating the created_at field here 
+                ad.created_at = created_at
+                ad.save()
+
             except Exception as e:
                 print(e)

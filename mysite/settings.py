@@ -86,33 +86,40 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 
 
 from decouple import config
-db_password = config('db_password')
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',          #DB config for my local host
+# Get the environment type
+environment = config('DJANGO_ENV', default='development')
+
+# Define your database configurations
+DATABASES_CONFIG = {
+    'development': {
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'mysite',
         'USER': 'postgres',
-        'PASSWORD': db_password,
+        'PASSWORD': config('DB_PASSWORD'),
         'HOST': 'localhost',
         'PORT': '5432',
+    },
+    'production': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'hadiabedah2$default',
+        'USER': 'hadiabedah2',
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': 'hadiabedah2.mysql.pythonanywhere-services.com',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': 'SET default_storage_engine=INNODB',
+        }
     }
 }
 
-#db_password = config('db_password')
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.mysql',          DB config for pythonanywhere
-#        'NAME': 'hadiabedah2$default',
-#        'USER': 'hadiabedah2',
-#        'PASSWORD': db_password,
-#        'HOST': 'hadiabedah2.mysql.pythonanywhere-services.com',
-#        'PORT': '3306',
-#        'OPTIONS': {
-#            'init_command': 'SET default_storage_engine=INNODB',
-#        }
-#    }
-#}
+# Select the appropriate database based on the environment
+DATABASES = {
+    'default': DATABASES_CONFIG.get(environment)
+}
 
+# Ensure there is a default configuration in case the environment variable is not set
+if DATABASES['default'] is None:
+    raise ValueError(f"Invalid DJANGO_ENV value: {environment}")
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
