@@ -4,6 +4,8 @@ from taggit.managers import TaggableManager
 from django.contrib.auth.models import User
 from django.core.validators import MinLengthValidator
 from django.conf import settings
+from datetime import timedelta
+import random
 
 class Ad(models.Model) :
     title = models.CharField(
@@ -25,6 +27,9 @@ class Ad(models.Model) :
     # Shows up in the admin list
     def __str__(self):
         return self.title
+    # to generate semi-random updated_at in my scripts!
+    def random_updated_at(self):
+        self.updated_at = self.created_at + timedelta(days=random.randint(0, 15), hours=random.randint(0, 24))
 
 class Comment(models.Model) :
     text = models.TextField(
