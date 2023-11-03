@@ -86,6 +86,7 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 
 
 from decouple import config
+
 # Get the environment type
 environment = config('DJANGO_ENV', default='development')
 
@@ -120,6 +121,9 @@ DATABASES = {
 # Ensure there is a default configuration in case the environment variable is not set
 if DATABASES['default'] is None:
     raise ValueError(f"Invalid DJANGO_ENV value: {environment}")
+
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
