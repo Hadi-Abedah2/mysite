@@ -15,6 +15,7 @@ django-allauth = {version = "*", extras = ["google"]}
 python-decouple = "*"
 psycopg2 = "*"
 django-gravatar2 = "*"
+requests = "*"
 
 [dev-packages]
 

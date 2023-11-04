@@ -19,10 +19,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 from decouple import config
-SECRET_KEY = config('SECRET_KEY')   ## making my webapp secure !
+SECRET_KEY = config('SECRET_KEY', False)   ## making my webapp secure !
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = ['hadiabedah2.pythonanywhere.com', '127.0.0.1']
 
@@ -37,20 +37,24 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    #local apps
     "ads",
     "home",
-    'crispy_forms',
-    'crispy_bootstrap4',
-    'taggit',
-    'widget_tweaks',
-    'django_extensions' ,
-    'django.contrib.humanize',
+    "sentiment",
+    #third party 
+    "crispy_forms",
+    "crispy_bootstrap4",
+    "taggit",
+    "widget_tweaks",
+    "django_extensions" ,
+    "django.contrib.humanize",
     # this for google social login
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'django_gravatar',
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
+    "django_gravatar",
+    
 ]
 
 MIDDLEWARE = [
@@ -194,3 +198,4 @@ SOCIALACCOUNT_PROVIDERS = {
 
 GRAVATAR_DEFAULT_IMAGE = 'mm'
 GRAVATAR_SECURE_REQUESTS = True
+

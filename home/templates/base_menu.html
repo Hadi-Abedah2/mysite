@@ -35,6 +35,9 @@
       <li class="nav-item {% if request.get_full_path == ads %}active{% endif %}">
         <a class="nav-link" href="{% url 'ads:ad_list' %}">Ads</a>
       </li>
+      <li class="nav-item {% if request.get_full_path == sentiment %}active{% endif %}">
+        <a class="nav-link" href="{% url 'sentiment:sentiment_analyzer' %}">Sentiment Analyzer</a>
+      </li>
     </ul>
     <ul class="navbar-nav ml-auto">
         {% if user.is_authenticated %}
