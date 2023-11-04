@@ -106,7 +106,7 @@ DATABASES_CONFIG = {
     },
     'production': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hadiabedah2$default',
+        'NAME': 'hadiabedah2$mysite',
         'USER': 'hadiabedah2',
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': 'hadiabedah2.mysql.pythonanywhere-services.com',
