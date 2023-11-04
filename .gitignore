@@ -2,3 +2,11 @@
 data.json
 pipfile 
 pipfile.lock
+# Migration files
+**/migrations/*.py
+**/migrations/*.pyc
+!**/migrations/__init__.py
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]

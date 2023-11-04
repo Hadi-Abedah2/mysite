@@ -21,6 +21,7 @@ urlpatterns = [
     path("ads/", include("ads.urls")),
     #path("accounts/", include("django.contrib.auth.urls")), this is very basic auth
     path("", include("home.urls")),
+    path("sentiment/", include("sentiment.urls")),
     path('accounts/', include('allauth.urls')),
 
 ]
