@@ -6,7 +6,7 @@ from django.utils import timezone
 import random
 from datetime import timedelta, datetime
 
-filename = "ads/scripts/data/ads_ad.csv"
+filename = "ads/scripts/data/ads_ad_2.csv"
 
 
 all_users = list(get_user_model().objects.all())
@@ -17,7 +17,6 @@ def random_user():
 
 
 def run():
-    Ad.objects.all().delete()
     with open(filename, "r") as f:
         reader = csv.reader(f)
         next(reader)
@@ -33,7 +32,7 @@ def run():
                     created_at=created_at,
                 )
                 ad.save()
-                tag_to_add = ["drugs", "demo"]
+                tag_to_add = ["movies", "demo"]
                 ad.tags.add(*tag_to_add)
                 #updating the created_at field here 
                 ad.created_at = created_at
