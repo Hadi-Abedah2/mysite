@@ -1,6 +1,6 @@
 .env
 data.json
-pipfile 
+pipfile
 pipfile.lock
 # Migration files
 **/migrations/*.py
@@ -10,3 +10,6 @@ pipfile.lock
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+
+# ignore the file counter
+sentiment/request_counter.json
