@@ -72,7 +72,7 @@ class Lesson(models.Model):
 class Enrollment(models.Model):
     learner = models.ForeignKey(Learner, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True)
     rating = models.FloatField(default=5.00)
 
     class Meta:
