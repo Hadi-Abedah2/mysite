@@ -1,0 +1,13 @@
+{% extends "base_menu.html" %} 
+{% block content %}
+    {% if lessons %}
+        {% for lesson in lessons %}
+            <div class="card mt-1">
+                <div class="card-header"><h5>Lesson {{lesson.order|add:1}}: {{lesson.title}}</h5></div>
+                <div class="card-body">{{lesson.description}}</div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No lessons are available.</p>
+    {% endif %}
+{% endblock %}

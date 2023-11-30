@@ -10,3 +10,5 @@ pipfile.lock
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+# ignore the file counter set to limit the sentiment analysis calls 
+sentiment/request_counter.json
