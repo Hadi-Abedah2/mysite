@@ -1,0 +1,30 @@
+{% extends "base_menu.html" %} 
+
+{% block content %} 
+<div class="container">
+    <div class="card mb-3">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="{{ course.image.url }}" class="card-img" alt="{{ course.name }}">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ course.name }}</h5>
+                    <p class="card-text">{{ course.description }}</p>
+                    <p class="card-text"><small class="text-muted">Total Enrollments: {{ course.total_enrollment }}</small></p>
+                    {% if is_lessons %}
+                        <a href="{% url 'courses:lesson_list' course.id %}" class="btn btn-primary">Lessons</a>
+                    {% else %}
+                        <p>No lessons are available.</p>    
+                    {% endif %}
+                    {% if is_questions %}
+                        <a href="{% url 'courses:question_list' course.id %}" class="btn btn-secondary">Questions</a>
+                    {% else %}
+                        <p>No questions are available.</p>    
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

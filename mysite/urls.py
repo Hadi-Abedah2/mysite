@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static # this for serving static files in development mode
 import  django.contrib.auth.urls
 urlpatterns = [
     path("control-panel/", admin.site.urls),
@@ -23,6 +25,7 @@ urlpatterns = [
     path("", include("home.urls")),
     path("sentiment/", include("sentiment.urls")),
     path('accounts/', include('allauth.urls')),
+    path("courses/", include("onlinecourse.urls")),
 
 ]
 
@@ -45,6 +48,8 @@ urlpatterns += [
     ),
 ]
 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 

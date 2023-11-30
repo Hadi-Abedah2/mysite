@@ -16,6 +16,7 @@ python-decouple = "*"
 psycopg2 = "*"
 django-gravatar2 = "*"
 requests = "*"
+pillow = "*"
 
 [dev-packages]
 
