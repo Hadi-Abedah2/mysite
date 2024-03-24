@@ -49,6 +49,9 @@ INSTALLED_APPS = [
     "widget_tweaks",
     "django_extensions" ,
     "django.contrib.humanize",
+    'drf_material',
+    'rest_framework',
+    'django_filters',
     # this for google social login
     "allauth",
     "allauth.account",
@@ -203,3 +206,11 @@ SOCIALACCOUNT_PROVIDERS = {
 GRAVATAR_DEFAULT_IMAGE = 'mm'
 GRAVATAR_SECURE_REQUESTS = True
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5,
+    'DEFAULT_PERMISSION_CLASSES': [
+        'ads.API.permissions.CustomPermissionIsAuthenticatedOrReadOnly'
+    ], 
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}

@@ -1,0 +1,16 @@
+{% extends "rest_framework/api.html" %}
+{% load static %}
+
+{% block navbar %}
+  <nav style="background-color: #f8f9fa; padding: 10px; box-shadow: 0 2px 4px rgba(0,0,0,.1);">
+    <div style="max-width: 1140px; margin: auto;">
+      <a href="/" style="text-decoration: none; color: #333; font-size: 18px; font-weight: bold;">
+        &larr; Back to homepage
+      </a>
+    </div>
+  </nav>
+{% endblock %}
+
+{% block content %}
+  {{ block.super }}
+{% endblock %}

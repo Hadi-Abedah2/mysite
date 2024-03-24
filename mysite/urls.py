@@ -26,6 +26,7 @@ urlpatterns = [
     path("sentiment/", include("sentiment.urls")),
     path('accounts/', include('allauth.urls')),
     path("courses/", include("onlinecourse.urls")),
+    path("api/v1/", include("ads.API.urls")),
 
 ]
 
