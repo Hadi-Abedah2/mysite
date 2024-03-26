@@ -51,6 +51,9 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     'drf_material',
     'rest_framework',
+    #'rest_framework.authtoken', # no need for classic stateful tokens
+    'rest_framework_simplejwt',
+    'djoser',
     'django_filters',
     # this for google social login
     "allauth",
@@ -212,5 +215,10 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'ads.API.permissions.CustomPermissionIsAuthenticatedOrReadOnly'
     ], 
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',  # for my Browsable API 
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+
 }

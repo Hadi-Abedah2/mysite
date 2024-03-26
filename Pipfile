@@ -19,6 +19,8 @@ requests = "*"
 pillow = "*"
 djangorestframework = "*"
 drf-material = "*"
+djoser = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 
