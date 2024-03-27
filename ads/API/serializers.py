@@ -6,6 +6,10 @@ from django.contrib.auth import get_user_model
 
 class TagSerializer(serializers.ModelSerializer):
     
+    def to_representation(self, instance):
+        return instance.name
+    
+
     class Meta:
         model = Tag
         fields = ['name']
