@@ -27,8 +27,6 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path("courses/", include("onlinecourse.urls")),
     path("api/v1/", include("ads.API.urls")),
-    path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.jwt')),
 
 ]
 

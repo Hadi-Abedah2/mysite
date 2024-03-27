@@ -28,13 +28,22 @@ class AdViewSet(viewsets.ModelViewSet):
     def comments(self, request, pk=None):
         ad = get_object_or_404(Ad.objects.prefetch_related('comment_set'), pk=pk)
         comments = ad.comment_set.all() # will not hit the DB.
+        page = self.paginate_queryset(comments)  # uses the ViewSET pagination class
+        if page:
+            serializer = CommentSerializer(page, many=True)
+            return Response(serializer.data)
         serializer = CommentSerializer(comments, many=True)  
         return Response(serializer.data)
 
-    @action(methods=[ 'get' ], detail=False, name='My Ads', url_path='my-ads')
+    @action(methods=[ 'get' ], detail=False, name='My Ads', url_path='my-ads',)
     def my_ads(self, request):
         if request.user.is_authenticated:
             ads = Ad.objects.filter(owner=request.user).order_by('-created_at')
+            page = self.paginate_queryset(ads)
+            if page:
+                serializer = AdSerializer(page, many=True)
+                return Response(serializer.data)
+
             serializer = AdSerializer(ads, many=True)
             return Response(serializer.data)
         else:
@@ -54,10 +63,14 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(owner=self.request.user)
         return super().perform_create(serializer)
 
-    @action(methods=[ 'get' ], detail=False, name ='My Comments')
+    @action(methods=[ 'get' ], detail=False, name ='My Comments', url_path='my-comments',)
     def my_comments(self, request):
         if request.user.is_authenticated:
             comments = Comment.objects.filter(owner=request.user).order_by('-created_at')
+            page = self.paginate_queryset(comments)
+            if page:
+                serializer = CommentSerializer(page, many=True)
+                return Response(serializer.data)
             serializer = CommentSerializer(comments, many=True)
             return Response(serializer.data)
         else:

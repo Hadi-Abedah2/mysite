@@ -164,30 +164,38 @@ class CommentViewSetTestCase(APITestCase):
         self.comment = Comment.objects.create(ad=self.ad, text="Test Comment", owner=self.user)
         self.comment = Comment.objects.create(ad=self.ad, text="Test2 Comment", owner=self.user)
         self.comment = Comment.objects.create(ad=self.ad, text="Test3 Comment", owner=self.not_owner)
+        self.comment = Comment.objects.create(ad=self.ad, text="Test4 Comment", owner=self.user)
+        self.comment = Comment.objects.create(ad=self.ad, text="Test5 Comment", owner=self.user)
+        self.comment = Comment.objects.create(ad=self.ad, text="Test6 Comment", owner=self.user)
+        self.comment = Comment.objects.create(ad=self.ad, text="Test7 Comment", owner=self.user)
         
-    def test_commnets_list(self):
+    def test_comments_list(self):
         url = reverse('comments-list')
         response = self.client.get(url)
-        #print(response.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data['results']), 3)
+        self.assertEqual(response.data['count'], 7)
         #self.assertEqual(response.data['results'][0]['text'], "Test3 Comment") this test fails intermittently 
 
     def test_comments_create(self):
         url = reverse('comments-list') 
         response = self.client.post(url, {'text': 'Test Comment_LAST', 'ad': self.ad.id, 'owner': self.not_owner.id})
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Comment.objects.count(), 4)
+        self.assertEqual(Comment.objects.count(), 8)
         self.assertEqual(Comment.objects.last().text, 'Test Comment_LAST')
 
     def test_my_comments_action(self):
         url = reverse('comments-my-comments')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 2)
+        
 
     def test_my_comments_action_unauthenticated(self):
         url = reverse('comments-my-comments')
         self.client.force_authenticate(user=None)
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_my_comments_action_paginate(self):
+        url = reverse('comments-my-comments') 
+        response = self.client.get(url)
+        self.assertEqual(len(response.data), 5)
